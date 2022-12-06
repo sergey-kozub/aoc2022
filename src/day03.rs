@@ -47,29 +47,19 @@ pub fn run(content: &str) {
 
 #[cfg(test)]
 mod tests {
-    fn create(s: &str) -> super::Rucksack {
-        super::Rucksack::from(s)
-    }
-
     #[test]
-    fn part1() {
-        assert_eq!(create("vJrwpWtwJgWrhcsFMMfFFhFp").priority(), 16);
-        assert_eq!(create("jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL").priority(), 38);
-        assert_eq!(create("PmmdzqPrVvPwwTWBwg").priority(), 42);
-        assert_eq!(create("wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn").priority(), 22);
-        assert_eq!(create("ttgJtRGJQctTZtZT").priority(), 20);
-        assert_eq!(create("CrZsJsPPZsGzwwsLwLmpwMDw").priority(), 19);
-    }
+    fn sacks() {
+        let rs = [
+            "vJrwpWtwJgWrhcsFMMfFFhFp",
+            "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
+            "PmmdzqPrVvPwwTWBwg",
+            "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn",
+            "ttgJtRGJQctTZtZT",
+            "CrZsJsPPZsGzwwsLwLmpwMDw",
+        ].map(super::Rucksack::from);
 
-    #[test]
-    fn part2() {
-        assert_eq!(
-            create("vJrwpWtwJgWrhcsFMMfFFhFp").badge(
-            &create("jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL"),
-            &create("PmmdzqPrVvPwwTWBwg")), 18);
-        assert_eq!(
-            create("wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn").badge(
-            &create("ttgJtRGJQctTZtZT"),
-            &create("CrZsJsPPZsGzwwsLwLmpwMDw")), 52);
+        assert_eq!(rs[0].badge(&rs[1], &rs[2]), 18);
+        assert_eq!(rs[3].badge(&rs[4], &rs[5]), 52);
+        assert_eq!(rs.map(|x| x.priority()), [16, 38, 42, 22, 20, 19]);
     }
 }

@@ -48,27 +48,19 @@ pub fn run(content: &str) {
 
 #[cfg(test)]
 mod tests {
-    fn create(s: &str) -> super::Assignment {
-        super::Assignment::from(s)
+    fn check(s: &str, full: bool, part: bool) {
+        let inst = super::Assignment::from(s);
+        assert_eq!(inst.full_overlap(), full);
+        assert_eq!(inst.overlap(), part);
     }
 
     #[test]
-    fn part1() {
-        assert_eq!(create("2-4,6-8").full_overlap(), false);
-        assert_eq!(create("2-3,4-5").full_overlap(), false);
-        assert_eq!(create("5-7,7-9").full_overlap(), false);
-        assert_eq!(create("2-8,3-7").full_overlap(), true);
-        assert_eq!(create("6-6,4-6").full_overlap(), true);
-        assert_eq!(create("2-6,4-8").full_overlap(), false);
-    }
-
-    #[test]
-    fn part2() {
-        assert_eq!(create("2-4,6-8").overlap(), false);
-        assert_eq!(create("2-3,4-5").overlap(), false);
-        assert_eq!(create("5-7,7-9").overlap(), true);
-        assert_eq!(create("2-8,3-7").overlap(), true);
-        assert_eq!(create("6-6,4-6").overlap(), true);
-        assert_eq!(create("2-6,4-8").overlap(), true);
+    fn overlap() {
+        check("2-4,6-8", false, false);
+        check("2-3,4-5", false, false);
+        check("5-7,7-9", false, true);
+        check("2-8,3-7", true, true);
+        check("6-6,4-6", true, true);
+        check("2-6,4-8", false, true);
     }
 }

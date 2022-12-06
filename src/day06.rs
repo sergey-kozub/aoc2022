@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 fn search(s: &str, n: usize) -> usize {
     s.as_bytes().windows(n).enumerate().take_while(|(_, v)| {
-        HashSet::<u8>::from_iter(v.iter().map(|x| *x)).len() < n
+        HashSet::<u8>::from_iter(v.to_vec()).len() < n
     }).last().unwrap().0 + n + 1
 }
 

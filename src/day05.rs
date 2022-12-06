@@ -67,7 +67,14 @@ pub fn run(content: &str) {
 
 #[cfg(test)]
 mod tests {
-    fn example() -> &'static str {
+    fn check(s: &str, t: &str, rev: bool) {
+        let mut crane = super::Crane::from(s);
+        assert_eq!(crane.execute(rev), t);
+    }
+
+    #[test]
+    fn moves() {
+        let example =
         "    [D]\n\
          [N] [C]\n\
          [Z] [M] [P]\n\
@@ -76,18 +83,9 @@ mod tests {
          move 1 from 2 to 1\n\
          move 3 from 1 to 3\n\
          move 2 from 2 to 1\n\
-         move 1 from 1 to 2"
-    }
+         move 1 from 1 to 2";
 
-    #[test]
-    fn part1() {
-        let mut test = super::Crane::from(example());
-        assert_eq!(test.execute(true), "CMZ");
-    }
-
-    #[test]
-    fn part2() {
-        let mut test = super::Crane::from(example());
-        assert_eq!(test.execute(false), "MCD");
+         check(example, "CMZ", true);
+         check(example, "MCD", false);
     }
 }
