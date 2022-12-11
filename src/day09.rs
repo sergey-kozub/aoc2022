@@ -75,6 +75,7 @@ mod tests {
     pub fn moves() {
         let input = "R 4\nU 4\nL 3\nD 1\nR 4\nD 1\nL 5\nR 2";
         let inst = super::Bridge::from(input);
-        assert_eq!(inst.count_move_pos(), 13);
+        assert_eq!(inst.count_moves(1), 13);
+        assert_eq!(inst.count_moves(9), 1);
     }
 }
