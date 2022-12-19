@@ -1,22 +1,22 @@
 use regex::Regex;
 use std::collections::{HashSet, VecDeque};
 
-type Ore = u32;
-type Clay = u32;
-type Obsidian = u32;
-type Geode = u32;
+type Ore = u16;
+type Clay = u16;
+type Obsidian = u16;
+type Geode = u16;
 type Resources = (Ore, Clay, Obsidian, Geode);
 
 #[derive(Debug)]
 struct State {
-    step: u32,
+    step: u16,
     resources: Resources,
     robots: Resources,
 }
 
 #[derive(Debug)]
 struct Blueprint {
-    id: u32,
+    id: u16,
     ore_cost: Ore,
     clay_cost: Ore,
     obsidian_cost: (Ore, Clay),
@@ -33,7 +33,7 @@ impl Blueprint {
             Each geode robot costs (\\d+) ore and (\\d+) obsidian.\
         ").unwrap();
         let caps = pattern.captures(input).unwrap();
-        let get = |i| caps.get(i).unwrap().as_str().parse::<u32>().unwrap();
+        let get = |i| caps.get(i).unwrap().as_str().parse::<u16>().unwrap();
         Blueprint {
             id: get(1),
             ore_cost: get(2),
@@ -43,14 +43,14 @@ impl Blueprint {
         }
     }
 
-    fn mine(&self, limit: u32) -> u32 {
+    fn mine(&self, limit: u16) -> u16 {
         let ore_max = [self.ore_cost, self.clay_cost, self.obsidian_cost.0,
                        self.geode_cost.0].into_iter().max().unwrap();
         let mut queue: VecDeque<State> = VecDeque::from([
             State { step: 0, resources: (0, 0, 0, 0), robots: (1, 0, 0, 0) }
         ]);
         let mut visited: HashSet<(Resources, Resources)> = HashSet::new();
-        let mut result: u32 = 0;
+        let mut result: u16 = 0;
 
         while let Some(State {step, resources: r, robots: p}) = queue.pop_front() {
             if step >= limit { break; }
@@ -90,7 +90,7 @@ impl Blueprint {
 
 pub fn run(content: &str) {
     let bps: Vec<Blueprint> = content.lines().map(Blueprint::from).collect();
-    let score_1 = bps.iter().map(|x| x.id * x.mine(24)).sum::<u32>();
+    let score_1 = bps.iter().map(|x| x.id * x.mine(24)).sum::<u16>();
     let score_2 = bps[..3].iter().map(|x| x.mine(32)).reduce(|a, b| a * b).unwrap();
     println!("{} {}", score_1, score_2);
 }
